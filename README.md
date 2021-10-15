@@ -71,8 +71,4 @@ git clone https://github.com/rafay99-epic/Alacritty-Terminal-file.git
 3. In that file delete the Alacritty folder.
 4. Copy the Alacritty folder from the GitHub pages and place the folder in the config file.
 
-## Final Result:
 
-Your terminal will look like this the shell be different but the terminal will have border less look
-
-![Screenshot from 2021-10-16 00-04-24.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ebb1c86e-ac1c-414a-9db4-9017b5721d6d/Screenshot_from_2021-10-16_00-04-24.png)
