@@ -36,40 +36,146 @@ function install_terminal()
 {
     if [[ "$package_manager" == "pacman" ]];
     then
+        echo -ne "
+-------------------------------------------------------------------------
+          Arch System or Arch Based System              
+-------------------------------------------------------------------------
+" 
+        install_paru
         install_arch
         change_shell
         config_terminal
     elif [[ "$package_manager" == "apt-get" ]];
     then
+        echo -ne "
+-------------------------------------------------------------------------
+            Debian System or Debian Based System  
+-------------------------------------------------------------------------
+" 
          install_debian
          change_shell
          config_terminal
     else
-        echo 'Error Occured: ${package_manager}'
+        echo -ne "
+-------------------------------------------------------------------------
+                Sorry!! Error Occured: ${package_manager}
+-------------------------------------------------------------------------
+" 
         exit 0
     fi    
 }
+function install_paru()
+{
+    echo -ne "
+-------------------------------------------------------------------------
+                    Installing Paru AUR  
+-------------------------------------------------------------------------
+"
+    sudo pacman -S --needed base-devel
+    git clone https://aur.archlinux.org/paru.git
+    cd paru
+    makepkg -si
+    cd ../    
+}
 function install_arch() 
 {
-    sudo pacman -S yay --noconfirm --needed
+    echo -ne "
+-------------------------------------------------------------------------
+                    Updating System  
+-------------------------------------------------------------------------
+"
+    sudo pacman -Syyu --noconfirm --needed
+    paru -Syyu --noconfirm --needed
+
+    echo -ne "
+-------------------------------------------------------------------------
+                    Install Terminal Alacritty  
+-------------------------------------------------------------------------
+"
     sudo pacman -S alacritty --noconfirm --needed
+
+    echo -ne "
+-------------------------------------------------------------------------
+                    Install Fish Shell 
+-------------------------------------------------------------------------
+"
     sudo pacman -S fish --noconfirm -needed
+
+    echo -ne "
+-------------------------------------------------------------------------
+                    Install Neofetch  
+-------------------------------------------------------------------------
+"
     sudo pacman -S neofetech --noconfirm --needed
+ 
+    echo -ne "
+-------------------------------------------------------------------------
+                    Install Figlet Application  
+-------------------------------------------------------------------------
+"
+
     sudo pacman -S figlet --noconfirm --needed
-    yay -S nerd-fonts-mononoki --noconfirm --needed
+ 
+    echo -ne "  
+-------------------------------------------------------------------------
+                    Install Font for the terminal 
+-------------------------------------------------------------------------
+"
+    paru -S nerd-fonts-mononoki --noconfirm --needed
 }
 function install_debian()
 {
+        echo -ne "
+-------------------------------------------------------------------------
+                    Updating System  
+-------------------------------------------------------------------------
+"
+    sudo apt-get update && sudo apt-get upgrade -y
+ 
     sudo apt-get install fish -y
-    sudo apt install fonts-mononoki -y
+ 
+     echo -ne "
+-------------------------------------------------------------------------
+                    Install Neofetch  
+-------------------------------------------------------------------------
+"
     sudo apt-get install neofetch -y
+ 
+    echo -ne "  
+-------------------------------------------------------------------------
+                    Install Font for the terminal 
+-------------------------------------------------------------------------
+"
     sudo apt install fonts-powerline -y
     sudo apt install fonts-font-awesome -y
+    sudo apt install fonts-mononoki -y
+
+    echo -ne "
+-------------------------------------------------------------------------
+                    Install Figlet Application  
+-------------------------------------------------------------------------
+"
+    echo -ne "
+-------------------------------------------------------------------------
+                    Install Fish Shell 
+-------------------------------------------------------------------------
+"
     sudo apt-get install figlet -y
+
+    echo -ne "
+-------------------------------------------------------------------------
+                    Install Terminal Alacritty  
+-------------------------------------------------------------------------
+" 
     sudo dpkg -i Alacritty.deb
 }
 function change_shell() 
-{   
+{ 
+    echo -ne "
+-------------------------------------------------------------------------
+                Changing Default Shell  
+-------------------------------------------------------------------------
+"  
     if [[ "$package_manager" == "pacman" ]];
     then
         chsh -s /bin/fish
@@ -86,20 +192,26 @@ function config_terminal()
     cp -r fish alacritty ~/.config
 }
 function nonroot()
-{
+{   
+
     if [ "$USER" = root ]; then
-        echo "This script shouldn't be run as root. Aborting."
-        echo "Run script like this:-   ./install.sh"
-        exit 1
+            echo -ne "
+-------------------------------------------------------------------------
+            This script shouldn't be run as root. Aborting.
+            Run script like this:-   ./install.sh
+-------------------------------------------------------------------------
+"
+           exit 1
     fi
 }
+#Beginning Of the script
 function run() 
 {
-    #welcome message
-    welcome
-
     #check no root for this file
     nonroot
+ 
+    #welcome message
+    welcome
 
     #Installing Terminal
     install_terminal
