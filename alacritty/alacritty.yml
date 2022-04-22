@@ -15,16 +15,16 @@ scrolling:
   # Font configuration
 font:
   normal:
-    family: Mononoki Nerd Font
+    family: Mononspace
     style: Regular
   bold:
-    family: Mononoki Nerd Font
+    family: Mononspace
     style: Bold
   italic:
-    family: Mononoki Nerd Font
+    family: Monospace
     style: Italic
   bold_italic:
-    family: Mononoki Nerd Font
+    family: Monospace
     style: Bold Italic
   size: 11.0
   offset:
