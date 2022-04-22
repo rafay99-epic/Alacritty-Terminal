@@ -48,3 +48,11 @@ Your terminal will look like this the shell be different but the terminal will h
 ![Screenshot from 2022-04-22 23-53-42](https://user-images.githubusercontent.com/82662797/164777202-d1a1e03b-d47c-4951-9034-b3261997a4fa.png)
 
 
+# Contact Information:
+
+**Name**: Mohammad Abdul Rafay 
+
+**Email**: 99marafay@gmail.com
+
+
+
