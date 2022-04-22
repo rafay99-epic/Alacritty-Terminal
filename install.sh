@@ -45,16 +45,17 @@ function install_terminal()
         install_arch
         change_shell
         config_terminal
+        omf-framework
     elif [[ "$package_manager" == "apt-get" ]];
     then
         echo -ne "
 -------------------------------------------------------------------------
             Debian System or Debian Based System  
--------------------------------------------------------------------------
-" 
-         install_debian
-         change_shell
-         config_terminal
+-------------------------------------------------------------------------"
+        install_debian
+        change_shell
+        config_terminal
+        omf-framework
     else
         echo -ne "
 -------------------------------------------------------------------------
@@ -190,6 +191,22 @@ function change_shell()
 function config_terminal()
 {
     cp -r fish alacritty ~/.config
+}
+function omf-framework()
+{
+    echo -ne "
+-------------------------------------------------------------------------
+                Applying the oh-my-fish framework  
+-------------------------------------------------------------------------
+"  
+    # with git
+    git clone https://github.com/oh-my-fish/oh-my-fish
+    cd oh-my-fish
+    bin/install --offline
+    # with a tarball
+    curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install > install
+    fish install --offline=omf.tar.gz
+    cd ../
 }
 function nonroot()
 {   
