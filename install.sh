@@ -28,7 +28,7 @@ function welcome()
   echo '#             ####  Author: Mohammad Abdul Rafay   #####                      # '
   echo '#             ####  Email : 99marafay@gmail.com    #####                      # '
   echo '#             ####  GitHub: rafay99-epic           #####                      # '
-  echo '#             ####  Project:The App.js File        #####                      # '
+  echo '#             ####  Project:Terminal Config App    #####                      # '
   echo '#                                                                             # '
   echo '############################################################################### '
 }
