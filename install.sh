@@ -120,7 +120,7 @@ function install_arch()
                     Install Neofetch  
 -------------------------------------------------------------------------
 "
-    sudo pacman -S neofetech --noconfirm --needed
+    sudo pacman -S neofetch --noconfirm --needed
  
     echo -ne "
 -------------------------------------------------------------------------
