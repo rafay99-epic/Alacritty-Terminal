@@ -21,6 +21,9 @@ do
     fi
 done
 
+#Location for Paru
+PARU=/usr/bin/paru
+
 function welcome()
 {
   echo '############################################################################### '
@@ -67,16 +70,26 @@ function install_terminal()
 }
 function install_paru()
 {
-    echo -ne "
--------------------------------------------------------------------------
-                    Installing Paru AUR  
--------------------------------------------------------------------------
-"
-    sudo pacman -S --needed base-devel
-    git clone https://aur.archlinux.org/paru.git
-    cd paru
-    makepkg -si
-    cd ../    
+    if [ ! -e "$PARU" ]; 
+        then
+            # Installing Paru 
+            echo -ne "
+            -------------------------------------------------------------------------
+                                Installing Paru AUR  
+            -------------------------------------------------------------------------
+            "
+            git clone https://aur.archlinux.org/paru.git
+            cd paru
+            makepkg -si
+            cd ../
+        else
+               echo -ne "
+                -------------------------------------------------------------------------
+                                Paru Exists
+                -------------------------------------------------------------------------
+                "
+        fi
+   
 }
 function install_arch() 
 {
@@ -100,7 +113,7 @@ function install_arch()
                     Install Fish Shell 
 -------------------------------------------------------------------------
 "
-    sudo pacman -S fish --noconfirm -needed
+    sudo pacman -S fish --noconfirm --needed
 
     echo -ne "
 -------------------------------------------------------------------------
