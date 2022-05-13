@@ -212,7 +212,7 @@ function install_debian()
                     Install Terminal Alacritty  
 -------------------------------------------------------------------------
 " 
-    sudo dpkg -i Alacritty.deb -y
+    sudo dpkg -i Alacritty.deb 
 }
 function change_shell() 
 { 
@@ -240,7 +240,7 @@ function config_terminal()
 -------------------------------------------------------------------------
 "
     cp -r fish alacritty ~/.config
-    cp -r NerdsFonts  ~/.local/share
+    cp -r NerdFonts  ~/.local/share
 }
 function omf-framework()
 {
