@@ -26,15 +26,27 @@ PARU=/usr/bin/paru
 
 function welcome()
 {
-  echo '############################################################################### '
-  echo '#                                                                             # '
-  echo '#             ####  Author: Mohammad Abdul Rafay   #####                      # '
-  echo '#             ####  Email : 99marafay@gmail.com    #####                      # '
-  echo '#             ####  GitHub: rafay99-epic           #####                      # '
-  echo '#             ####  Project:Terminal Config App    #####                      # '
-  echo '#                                                                             # '
-  echo '############################################################################### '
+  echo '###################################################################################### '
+  echo '#                                                                                    # '
+  echo '#                 ####  Author: Mohammad Abdul Rafay          #####                  # '
+  echo '#                 ####  Email : 99marafay@gmail.com           #####                  # '
+  echo '#                 ####  GitHub: rafay99-epic                  #####                  # '
+  echo '#                 ####  Project: Alacritty Terminal Config    #####                  # '
+  echo '#                                                                                    # '
+  echo '###################################################################################### '
 }
+
+function bye() 
+{
+    echo -ne "
+-------------------------------------------------------------------------
+          Thank You For Using this Script!!
+          
+          All Done...✨Congratulation✨              
+-------------------------------------------------------------------------
+" 
+}
+
 function install_terminal() 
 {
     if [[ "$package_manager" == "pacman" ]];
@@ -48,7 +60,10 @@ function install_terminal()
         install_arch
         change_shell
         config_terminal
-        omf-framework
+        starship_promote
+        fm6000-program
+        # omf-framework
+        bye
     elif [[ "$package_manager" == "apt-get" ]];
     then
         echo -ne "
@@ -58,7 +73,10 @@ function install_terminal()
         install_debian
         change_shell
         config_terminal
-        omf-framework
+        starship_promote
+        fm6000-program
+        # omf-framework
+        bye
     else
         echo -ne "
 -------------------------------------------------------------------------
@@ -136,6 +154,8 @@ function install_arch()
 -------------------------------------------------------------------------
 "
     paru -S nerd-fonts-mononoki --noconfirm --needed
+    paru -S ttf-meslo-nerd-font-powerlevel10k --noconfirm --needed
+    paru -S nerd-fonts-meslo --noconfirm --needed
 }
 function install_debian()
 {
@@ -160,28 +180,41 @@ function install_debian()
                     Install Font for the terminal 
 -------------------------------------------------------------------------
 "
-    sudo apt install fonts-powerline -y
-    sudo apt install fonts-font-awesome -y
-    sudo apt install fonts-mononoki -y
-
+    sudo apt-get install fonts-powerline -y
+    sudo apt-get install fonts-font-awesome -y
+    sudo apt-get install fonts-mononoki -y
+    sudo apt-get install fontconfig -y
+    
+    cd ~
+    wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip
+    mkdir -p .local/share/fonts
+    unzip Meslo.zip -d .local/share/fonts
+    cd .local/share/fonts
+    rm *Windows*
+    cd ~
+    rm Meslo.zip
+    fc-cache -fv
+    cd Alacritty-Terminal 
+    
     echo -ne "
 -------------------------------------------------------------------------
                     Install Figlet Application  
 -------------------------------------------------------------------------
 "
+    sudo apt-get install figlet -y
     echo -ne "
 -------------------------------------------------------------------------
                     Install Fish Shell 
 -------------------------------------------------------------------------
 "
-    sudo apt-get install figlet -y
+    sudo apt-get install fish -y
 
     echo -ne "
 -------------------------------------------------------------------------
                     Install Terminal Alacritty  
 -------------------------------------------------------------------------
 " 
-    sudo dpkg -i Alacritty.deb
+    sudo dpkg -i Alacritty.deb -y
 }
 function change_shell() 
 { 
@@ -202,8 +235,14 @@ function change_shell()
     fi  
 }
 function config_terminal()
-{
+{   
+        echo -ne "
+-------------------------------------------------------------------------
+            Moving Config Files & Font files  
+-------------------------------------------------------------------------
+"
     cp -r fish alacritty ~/.config
+    cp -r NerdsFonts  ~/.local/share
 }
 function omf-framework()
 {
@@ -221,9 +260,21 @@ function omf-framework()
     fish install --offline=omf.tar.gz
     cd ../
 }
+function fm6000-program()
+{
+    echo -ne "
+-------------------------------------------------------------------------
+            Install fm-master-6000  
+-------------------------------------------------------------------------
+"
+    sh -c "$(curl https://raw.githubusercontent.com/anhsirk0/fetch-master-6000/master/install.sh)"
+}
+function starship_promote()
+{
+    curl -sS https://starship.rs/install.sh | sh
+}
 function nonroot()
 {   
-
     if [ "$USER" = root ]; then
             echo -ne "
 -------------------------------------------------------------------------
