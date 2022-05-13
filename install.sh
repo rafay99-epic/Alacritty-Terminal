@@ -165,9 +165,7 @@ function install_debian()
 -------------------------------------------------------------------------
 "
     sudo apt-get update && sudo apt-get upgrade -y
- 
-    sudo apt-get install fish -y
- 
+  
      echo -ne "
 -------------------------------------------------------------------------
                     Install Neofetch  
