@@ -156,6 +156,13 @@ function install_arch()
     paru -S nerd-fonts-mononoki --noconfirm --needed
     paru -S ttf-meslo-nerd-font-powerlevel10k --noconfirm --needed
     paru -S nerd-fonts-meslo --noconfirm --needed
+    
+    echo -ne "  
+-------------------------------------------------------------------------
+                    Install LSD  
+-------------------------------------------------------------------------
+"
+    sudo pacman -S lsd --noconfirm --needed
 }
 function install_debian()
 {
@@ -212,7 +219,14 @@ function install_debian()
                     Install Terminal Alacritty  
 -------------------------------------------------------------------------
 " 
-    sudo dpkg -i Alacritty.deb 
+    sudo dpkg -i Alacritty.deb
+    
+    echo -ne "  
+-------------------------------------------------------------------------
+                    Install LSD  
+-------------------------------------------------------------------------
+"
+    sudo dpkg -i lsd.deb
 }
 function change_shell() 
 { 
