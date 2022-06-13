@@ -116,7 +116,7 @@ function config_terminal()
             Moving Config Files for Terminal Alacritty 
 -------------------------------------------------------------------------
 "
-    cp -r fish alacritty ~/.config
+    cp -r alacritty ~/.config
 }
 
 
