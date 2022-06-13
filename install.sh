@@ -7,9 +7,6 @@
 
 declare -A osInfo;
 osInfo[/etc/debian_version]="apt-get"
-osInfo[/etc/alpine-release]="apk"
-osInfo[/etc/centos-release]="yum"
-osInfo[/etc/fedora-release]="dnf"
 osInfo[/etc/arch-release]="pacman"
 
 #to find the which Os yo are running
@@ -21,8 +18,6 @@ do
     fi
 done
 
-#Location for Paru
-PARU=/usr/bin/paru
 
 function welcome()
 {
@@ -56,14 +51,10 @@ function install_terminal()
           Arch System or Arch Based System              
 -------------------------------------------------------------------------
 " 
-        install_paru
         install_arch
-        change_shell
         config_terminal
-        starship_promote
-        fm6000-program
-        # omf-framework
-        bye
+        choose_shell
+        reboot_now
     elif [[ "$package_manager" == "apt-get" ]];
     then
         echo -ne "
@@ -71,12 +62,9 @@ function install_terminal()
             Debian System or Debian Based System  
 -------------------------------------------------------------------------"
         install_debian
-        change_shell
         config_terminal
-        starship_promote
-        fm6000-program
-        # omf-framework
-        bye
+        choose_shell
+        reboot_now
     else
         echo -ne "
 -------------------------------------------------------------------------
@@ -86,29 +74,7 @@ function install_terminal()
         exit 0
     fi    
 }
-function install_paru()
-{
-    if [ ! -e "$PARU" ]; 
-        then
-            # Installing Paru 
-            echo -ne "
--------------------------------------------------------------------------
-                   Installing Paru AUR  
--------------------------------------------------------------------------
-            "
-            git clone https://aur.archlinux.org/paru.git
-            cd paru
-            makepkg -si
-            cd ../
-        else
-               echo -ne "
- -------------------------------------------------------------------------
-                    Paru Exists
--------------------------------------------------------------------------
-                "
-        fi
-   
-}
+
 function install_arch() 
 {
     echo -ne "
@@ -117,7 +83,6 @@ function install_arch()
 -------------------------------------------------------------------------
 "
     sudo pacman -Syyu --noconfirm --needed
-    paru -Syyu --noconfirm --needed
 
     echo -ne "
 -------------------------------------------------------------------------
@@ -125,166 +90,104 @@ function install_arch()
 -------------------------------------------------------------------------
 "
     sudo pacman -S alacritty --noconfirm --needed
-
-    echo -ne "
--------------------------------------------------------------------------
-                    Install Fish Shell 
--------------------------------------------------------------------------
-"
-    sudo pacman -S fish --noconfirm --needed
-
-    echo -ne "
--------------------------------------------------------------------------
-                    Install Neofetch  
--------------------------------------------------------------------------
-"
-    sudo pacman -S neofetch --noconfirm --needed
  
-    echo -ne "
--------------------------------------------------------------------------
-                    Install Figlet Application  
--------------------------------------------------------------------------
-"
-
-    sudo pacman -S figlet --noconfirm --needed
- 
-    echo -ne "  
--------------------------------------------------------------------------
-                    Install Font for the terminal 
--------------------------------------------------------------------------
-"
-    paru -S nerd-fonts-mononoki --noconfirm --needed
-    paru -S ttf-meslo-nerd-font-powerlevel10k --noconfirm --needed
-    paru -S nerd-fonts-meslo --noconfirm --needed
-    
-    echo -ne "  
--------------------------------------------------------------------------
-                    Install LSD  
--------------------------------------------------------------------------
-"
-    sudo pacman -S lsd --noconfirm --needed
 }
 function install_debian()
 {
-        echo -ne "
+    echo -ne "
 -------------------------------------------------------------------------
                     Updating System  
 -------------------------------------------------------------------------
 "
     sudo apt-get update && sudo apt-get upgrade -y
-  
-     echo -ne "
--------------------------------------------------------------------------
-                    Install Neofetch  
--------------------------------------------------------------------------
-"
-    sudo apt-get install neofetch -y
- 
-    echo -ne "  
--------------------------------------------------------------------------
-                    Install Font for the terminal 
--------------------------------------------------------------------------
-"
-    sudo apt-get install fonts-powerline -y
-    sudo apt-get install fonts-font-awesome -y
-    sudo apt-get install fonts-mononoki -y
-    sudo apt-get install fontconfig -y
-    
-    cd ~
-    wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip
-    mkdir -p .local/share/fonts
-    unzip Meslo.zip -d .local/share/fonts
-    cd .local/share/fonts
-    rm *Windows*
-    cd ~
-    rm Meslo.zip
-    fc-cache -fv
-    cd Alacritty-Terminal 
-    
-    echo -ne "
--------------------------------------------------------------------------
-                    Install Figlet Application  
--------------------------------------------------------------------------
-"
-    sudo apt-get install figlet -y
-    echo -ne "
--------------------------------------------------------------------------
-                    Install Fish Shell 
--------------------------------------------------------------------------
-"
-    sudo apt-get install fish -y
-
+   
     echo -ne "
 -------------------------------------------------------------------------
                     Install Terminal Alacritty  
 -------------------------------------------------------------------------
 " 
     sudo dpkg -i Alacritty.deb
-    
-    echo -ne "  
--------------------------------------------------------------------------
-                    Install LSD  
--------------------------------------------------------------------------
-"
-    sudo dpkg -i lsd.deb
-}
-function change_shell() 
-{ 
-    echo -ne "
--------------------------------------------------------------------------
-                Changing Default Shell  
--------------------------------------------------------------------------
-"  
-    if [[ "$package_manager" == "pacman" ]];
-    then
-        chsh -s /bin/fish
-    elif [[ "$package_manager" == "apt-get" ]];
-    then
-        chsh -s /usr/bin/fish
-    else
-        echo 'Error Occured: ${package_manager}'
-        exit 0
-    fi  
+
 }
 function config_terminal()
 {   
         echo -ne "
 -------------------------------------------------------------------------
-            Moving Config Files & Font files  
+            Moving Config Files for Terminal Alacritty 
 -------------------------------------------------------------------------
 "
     cp -r fish alacritty ~/.config
-    cp -r NerdFonts  ~/.local/share
 }
-function omf-framework()
+
+
+function choose_shell()
 {
     echo -ne "
 -------------------------------------------------------------------------
-                Applying the oh-my-fish framework  
+                --- Choose your Shell ---
+        --- Enter from the Following options: ---
+        --- 1. Fish Shell ---
+        --- 2. ZSh Shell  ---
+-------------------------------------------------------------------------
+"   
+    read -p "
+-------------------------------------------------------------------------
+            --- Note: use all small caps ---
+            --- Enter your Choice ---
+-------------------------------------------------------------------------
+"  user_choice
+
+    if [[ "$user_choice" == "fish" ]];
+    then
+        git clone https://github.com/rafay99-epic/Fish-Shell.git
+        cd Fish-Shell
+        ./install.sh
+    elif [[ "$user_choice" == "zsh"  ]];
+    then     
+        git clone https://github.com/rafay99-epic/ZSH-Shell.git
+        cd ZSH-Shell
+        ./install.sh
+    else
+        echo -ne "
+-------------------------------------------------------------------------
+            --- Sorry You must Choose shell ---
 -------------------------------------------------------------------------
 "  
-    # with git
-    git clone https://github.com/oh-my-fish/oh-my-fish
-    cd oh-my-fish
-    bin/install --offline
-    # with a tarball
-    curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install > install
-    fish install --offline=omf.tar.gz
-    cd ../
-}
-function fm6000-program()
-{
+        clear
+        choose_shell
+    fi
+}   
+
+function reboot_now()
+{   
     echo -ne "
 -------------------------------------------------------------------------
-            Install fm-master-6000  
+                --- A Reboot is Required ---
+        --- Enter from the Following options: ---
+        --- 1. Yes for Reboot system ---
+        --- 2. No for Exit the application ---
 -------------------------------------------------------------------------
 "
-    sh -c "$(curl https://raw.githubusercontent.com/anhsirk0/fetch-master-6000/master/install.sh)"
+    echo -ne "
+-------------------------------------------------------------------------
+            --- Enter your Choice ---
+-------------------------------------------------------------------------
+"
+    read -p  user_choice
+
+    if [[ "$user_choice" == "yes" || "$user_choice" == "Yes" || "$user_choice" == "YES" || "$user_choice" == "yEs" || "$user_choice" == "yeS"  ]];
+    then
+        reboot
+    elif [[ "$user_choice" == "no" || "$user_choice" == "No" || "$user_choice" == "nO" || "$user_choice" == "NO" ]];
+    then     
+        bye
+        exit 0
+    else
+        bye
+        exit 0
+    fi
 }
-function starship_promote()
-{
-    curl -sS https://starship.rs/install.sh | sh
-}
+
 function nonroot()
 {   
     if [ "$USER" = root ]; then
