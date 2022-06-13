@@ -104,13 +104,9 @@ For more features or face any issue free will to post on the issue section. Free
 
 **Email:** 99marafay@gmail.com
 
-## Final Result:
 
-Your terminal will look like this the shell be different but the terminal will have border less look
-
-
-![Screenshot from 2022-04-22 23-53-42](https://user-images.githubusercontent.com/82662797/164777202-d1a1e03b-d47c-4951-9034-b3261997a4fa.png)
-
+# Results:
+![Screenshot_20220520_225516](https://user-images.githubusercontent.com/82662797/169585145-81ad242c-1f70-4a1d-9c53-3a9625de7a0b.png)
 
 # Contact Information:
 
