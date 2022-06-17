@@ -1,16 +1,16 @@
 # Font configuration
 font:
   normal:
-    family: MesloLGL
+    family: MesloLGL Nerd Font
     style:  Regular
   bold:
-    family: MesloLGL
+    family: MesloLGL Nerd Font
     style: Bold
   italic:
-    family: MesloLGL
+    family: MesloLGL Nerd Font
     style: Italic
   bold_italic:
-    family: MesloLG
+    family: MesloLG Nerd Font
     style: Bold Italic
   size: 11.0
   offset:
@@ -189,8 +189,8 @@ colors:
 # background_opacity: 0.5
 window:
   dimensions:
-     columns: 200
-     lines: 200
+     columns: 100
+     lines: 25
   padding:
     x: 10
     y: 10
